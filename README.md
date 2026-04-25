@@ -312,7 +312,7 @@ Todos os estados foram implementados e testados na simulação do Wokwi:
 
 O maior desafio foi entender as limitações do MicroPython em relação ao Python convencional — a ausência de `match/case` e de vários módulos padrão exigiu adaptações na estrutura do código.
 
-Uma melhoria relevante seria adicionar persistência do último modo ativo, para que ao religar o sistema ele retome o estado anterior sem depender do switch estar posicionado. Outra melhoria seria o uso de interrupções (`IRQ`) nos pinos do switch em vez de polling no loop principal, tornando a resposta mais imediata.
+Uma melhoria relevante seria adicionar persistência do último modo ativo, para que ao religar o sistema ele retome o estado anterior sem depender do switch estar posicionado.
 
 ---
 
