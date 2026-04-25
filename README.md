@@ -271,7 +271,7 @@ Os componentes são inicializados em `globals.py` e a lógica de exibição é e
 
 ## 3️⃣ Componentes Utilizados na Simulação
 
-- **ESP32-S3 DevKitC-1** — microcontrolador principal
+- **ESP32** — microcontrolador principal
 - **Sensor MQ (wokwi-gas-sensor)** — leitura analógica do nível de gás via ADC
 - **DHT22** — leitura de temperatura e umidade
 - **Display OLED SSD1306 128x64** — exibe o estado atual do sistema via I2C
