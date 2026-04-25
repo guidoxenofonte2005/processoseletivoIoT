@@ -25,6 +25,13 @@
       "attrs": { "i2cAddress": "0x3c" }
     },
     {
+      "type": "wokwi-dht22",
+      "id": "dht1",
+      "top": -66.9,
+      "left": 349.8,
+      "attrs": { "temperature": "66" }
+    },
+    {
       "type": "wokwi-gas-sensor",
       "id": "gas1",
       "top": -52,
@@ -45,7 +52,15 @@
     [ "bb1:tp.4", "bb1:7t.b", "red", [ "v0" ] ],
     [ "bb1:tn.10", "bb1:8t.b", "black", [ "v0" ] ],
     [ "bb1:10t.d", "bb1:1b.f", "gold", [ "v28.8", "h-9.6" ] ],
+    [ "bb1:tn.25", "bb1:28t.b", "black", [ "v0" ] ],
+    [ "bb1:tp.19", "bb1:25t.b", "red", [ "v0" ] ],
+    [ "bb1:1t.c", "bb1:26t.c", "blue", [ "v0" ] ],
+    [ "bb1:1t.a", "esp:23", "blue", [ "v0", "h-19.2", "v-9.6" ] ],
     [ "bb1:1b.j", "esp:34", "gold", [ "v0", "h-28.8", "v76.8", "h-124.8", "v-163.2" ] ],
+    [ "dht1:VCC", "bb1:25t.a", "", [ "$bb" ] ],
+    [ "dht1:SDA", "bb1:26t.a", "", [ "$bb" ] ],
+    [ "dht1:NC", "bb1:27t.a", "", [ "$bb" ] ],
+    [ "dht1:GND", "bb1:28t.a", "", [ "$bb" ] ],
     [ "gas1:AOUT", "bb1:10t.a", "", [ "$bb" ] ],
     [ "gas1:DOUT", "bb1:9t.a", "", [ "$bb" ] ],
     [ "gas1:GND", "bb1:8t.a", "", [ "$bb" ] ],
