@@ -1,4 +1,5 @@
 from globals import *
+import utime
 
 print("Teste")
 
@@ -41,12 +42,19 @@ while True:
   # checa os resultados baseados no modo e valores lidos
   result = checkValues(mode, gas_value, temp_value)
   if result == "OK":
+    buzzer_pin.deinit()
     oled_screen.showNormal(mode, temp_value)
   elif result == "HOT":
+    buzzer_pin.deinit()
     oled_screen.showHotTempAlert(temp_value)
   elif result == "ALERT":
+    buzzer_pin.deinit()
     oled_screen.showAlert(mode, temp_value)
   elif result == "DNG":
+    buzzer_pin.init()
     oled_screen.showDanger()
   else:
+    buzzer_pin.init()
     oled_screen.showError()
+  
+  utime.sleep_ms(2000)

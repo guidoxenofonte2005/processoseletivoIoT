@@ -45,6 +45,13 @@
       "top": 90.8,
       "left": 243.1,
       "attrs": {}
+    },
+    {
+      "type": "wokwi-buzzer",
+      "id": "bz1",
+      "top": -36,
+      "left": 261,
+      "attrs": { "volume": "0.1" }
     }
   ],
   "connections": [
@@ -59,17 +66,20 @@
     ["bb1:tp.4", "bb1:7t.b", "red", ["v0"]],
     ["bb1:tn.10", "bb1:8t.b", "black", ["v0"]],
     ["bb1:tn.25", "bb1:28t.b", "black", ["v0"]],
+    ["bb1:17t.b", "bb1:tn.11", "black", ["h-30.4"]],
     ["bb1:tp.19", "bb1:25t.b", "red", ["v0"]],
     ["bb1:1t.c", "bb1:26t.c", "blue", ["v0"]],
     ["bb1:1t.a", "esp:23", "blue", ["v0", "h-19.2", "v-9.6"]],
+    ["bb1:18t.d", "bb1:11t.d", "green", ["v0"]],
+    ["bb1:11t.e", "esp:19", "green", ["v9.6"]],
     ["bb1:10t.d", "bb1:1b.f", "gold", ["v28.8", "h-9.6"]],
-    [ "bb1:1b.j", "esp:34", "gold", [ "v0", "h-28.8", "v76.8", "h-124.8", "v-163.2" ] ],
+    ["bb1:1b.j", "esp:34","gold", ["v0", "h-28.8", "v76.8", "h-124.8", "v-163.2"]],
     ["bb1:15b.h", "bb1:2b.h", "purple", ["v0"]],
     ["bb1:2b.i", "esp:17", "purple", ["h-28.8", "v-19.2"]],
     ["bb1:13b.i", "bb1:3b.i", "orange", ["v0"]],
     ["bb1:3b.g", "esp:16", "orange", ["v0", "h-28.8", "v9.6"]],
-    [ "bb1:tp.25", "bb1:bp.25", "red", [ "v0.3", "h20.8", "v172.8" ] ],
-    [ "bb1:bp.11", "bb1:14b.j", "red", [ "v0" ] ],
+    ["bb1:tp.25", "bb1:bp.25", "red", ["v0.3", "h20.8", "v172.8"]],
+    ["bb1:bp.11", "bb1:14b.j", "red", ["v0"]],
     ["dht1:VCC", "bb1:25t.a", "", ["$bb"]],
     ["dht1:SDA", "bb1:26t.a", "", ["$bb"]],
     ["dht1:NC", "bb1:27t.a", "", ["$bb"]],

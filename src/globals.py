@@ -1,4 +1,4 @@
-from machine import Pin, I2C, ADC
+from machine import Pin, I2C, ADC, PWM
 import dht
 
 # configuração do i2c da placa
@@ -13,6 +13,10 @@ gas_sensor = ADC(Pin(34))
 # pinos seletores de modo
 glp_pin = Pin(17, Pin.IN, Pin.PULL_DOWN)
 co_pin = Pin(16, Pin.IN, Pin.PULL_DOWN)
+
+# buzzer
+buzzer_pin = PWM(Pin(19), freq=437, duty_u16=32768)
+buzzer_pin.deinit()
 
 # tela
 from screen import OledScreen
