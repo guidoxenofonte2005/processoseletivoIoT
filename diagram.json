@@ -28,7 +28,7 @@
   "connections": [
     ["esp:TX", "$serialMonitor:RX", "", []],
     ["esp:RX", "$serialMonitor:TX", "", []],
-    ["esp:3V3.1", "bb1:tp.1", "red", ["v-38.4", "h57.55"]],
+    ["esp:3V3", "bb1:tp.1", "red", ["v-38.4", "h57.55"]],
     ["esp:GND.2", "bb1:tn.1", "black", ["v-9.6", "h84.8"]],
     ["oled2:VCC", "bb1:tp.1", "red", ["v-19.2", "h0.15"]],
     ["oled2:GND", "bb1:tn.2", "black", ["v-9.6", "h105.6"]],
