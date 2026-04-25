@@ -231,89 +231,88 @@ Após concluir o desenvolvimento:
 
 ## 📝 Relatório do Candidato
 
-O arquivo **`README.md` do seu repositório** deve ser utilizado como o  
-**relatório final do desafio técnico**.
-
-Preencha todas as seções abaixo de forma **clara, objetiva e técnica**.
-
-> 💡 **Dica importante**  
-> Não é necessário um relatório extenso.  
-> O principal critério é demonstrar **clareza nas decisões técnicas**, organização e entendimento do sistema embarcado desenvolvido.
-
----
-
 ### 👤 Identificação do Candidato
 
-- **Nome completo:**  
-- **GitHub:**  
+- **Nome completo:** Guido Xenofonte de Almeida Gonçalves
+- **GitHub:** guidoxenofonte2005
 
 ---
 
 ## 1️⃣ Visão Geral da Solução
 
-Descreva, em poucas palavras:
-
-- Qual é o objetivo do seu projeto  
-- O que o sistema embarcado simulado faz  
-- Como o usuário interage com ele (se aplicável)
+O objetivo do projeto é ser um sistema de detecção de vazamentos de gás em fogões caseiros e/ou máquinas industriais que utilizam queima de gás para funcionamento, com o uso adicional de um modo extra para detectar presença de monóxido de carbono em um ambiente industrial.
+O sistema utiliza dados de temperatura e gás no ambiente para identificar se está havendo queima correta, se há gás não sendo queimado ou se a temperatura ambiente está muito alta, notificando o usuário através de uma tela e de um buzzer conforme os dados são processados.
 
 ---
 
 ## 2️⃣ Arquitetura do Sistema Embarcado
 
-Explique a arquitetura lógica do seu projeto, abordando:
+O programa principal (`main.py`) opera em um loop contínuo com intervalo de 2 segundos entre cada leitura, respeitando o tempo mínimo de resposta do sensor DHT22.
 
-- Fluxo principal do programa (`main.py`)  
-- Estrutura de estados, loops ou temporizações  
-- Como os componentes interagem entre si  
+A cada iteração, o fluxo é:
 
-Se desejar, utilize tópicos ou um pequeno diagrama em texto.
+1. Leitura da temperatura via DHT22
+2. Leitura do nível de gás via ADC
+3. Verificação do modo ativo pelo slide switch (GLP ou CO)
+4. Chamada de `checkValues()` que retorna um dos estados: `OK`, `HOT`, `ALERT`, `DNG` ou `ERR`
+5. Ação correspondente ao estado — atualização do display OLED e controle do buzzer
+
+Os estados do sistema são:
+
+- **OK** — gás dentro do limite seguro, buzzer desligado, tela exibe leitura normal
+- **HOT** — gás seguro mas temperatura acima de 45°C, tela exibe alerta de temperatura
+- **ALERT** — gás em nível intermediário, tela exibe aviso de verificação
+- **DNG** — gás em nível de perigo, buzzer ativado, tela exibe alerta crítico
+- **ERR** — modo inválido (nenhum switch ativo), tela exibe mensagem de erro
+
+Os componentes são inicializados em `globals.py` e a lógica de exibição é encapsulada na classe `OledScreen` em `screen.py`.
 
 ---
 
 ## 3️⃣ Componentes Utilizados na Simulação
 
-Liste os principais componentes definidos no `diagram.json`, por exemplo:
-
-- Tipo de placa utilizada  
-- LEDs, botões, sensores, atuadores, etc.  
-- Função de cada componente no sistema  
+- **ESP32-S3 DevKitC-1** — microcontrolador principal
+- **Sensor MQ (wokwi-gas-sensor)** — leitura analógica do nível de gás via ADC
+- **DHT22** — leitura de temperatura e umidade
+- **Display OLED SSD1306 128x64** — exibe o estado atual do sistema via I2C
+- **Buzzer** — atuador sonoro controlado via PWM, ativado apenas no estado de perigo
+- **Slide Switch** — seleciona o modo de operação: posição 1 ativa modo GLP, posição 2 ativa modo CO
 
 ---
 
 ## 4️⃣ Decisões Técnicas Relevantes
 
-Explique brevemente decisões importantes tomadas durante o desenvolvimento, como:
+**Separação em módulos:** o código foi dividido em `globals.py` (configuração de hardware e constantes), `screen.py` (lógica de exibição) e `main.py` (fluxo principal), facilitando manutenção e leitura.
 
-- Organização do código  
-- Uso de funções, estados ou constantes  
-- Estratégias para temporização ou controle lógico  
+**Constantes de limite nomeadas:** os thresholds de gás e temperatura foram definidos como constantes com nomes descritivos (`GAS_GLP_SAFE`, `GAS_CO_ALERT`, `TEMP_HOT`) em vez de números soltos no código, tornando os limites fáceis de ajustar e entender.
+
+**Uso de `checkValues()`:** a lógica de decisão foi centralizada em uma função pura que recebe modo, gás e temperatura e retorna um estado textual. Isso separa a lógica de negócio das ações de hardware, facilitando testes e futuras modificações.
+
+**Controle do buzzer via `init()`/`deinit()`:** em vez de controlar o duty cycle para silenciar, o PWM é completamente desativado com `deinit()` quando não necessário, evitando consumo desnecessário e ruído residual.
+
+**Delay de 2 segundos:** o `utime.sleep_ms(2000)` respeita o intervalo mínimo de leitura do DHT22 e evita sobrecarga do processador no loop principal.
+
+**Slide switch único para dois modos:** um único switch de três posições substitui dois botões separados, usando os pinos externos para cada modo e o pino central conectado ao VCC, com pull-down nos pinos de entrada.
 
 ---
 
 ## 5️⃣ Resultados Obtidos
 
-Descreva o comportamento final do sistema:
+O sistema inicializa corretamente e entra em operação contínua. O modo é selecionado pelo slide switch e o display exibe as informações correspondentes ao estado detectado. O buzzer é ativado exclusivamente no estado de perigo (`DNG`) e no estado de erro (`ERR`), sendo desativado em outros estados.
 
-- O que funciona corretamente  
-- Quais requisitos foram atendidos  
-- Resultado observado na simulação do Wokwi  
+Todos os estados foram implementados e testados na simulação do Wokwi:
+- Leitura dos sensores funcionando corretamente
+- Transição entre estados refletida no display em tempo real
+- Buzzer respondendo corretamente ao estado de perigo
+- Separação de comportamento entre os modos GLP e CO
 
 ---
 
 ## 6️⃣ Comentários Adicionais (Opcional)
 
-Utilize este espaço para comentar, se desejar:
+O maior desafio foi entender as limitações do MicroPython em relação ao Python convencional — a ausência de `match/case` e de vários módulos padrão exigiu adaptações na estrutura do código.
 
-- Dificuldades encontradas  
-- Limitações da solução  
-- Melhorias que você faria com mais tempo  
-- Principais aprendizados durante o desafio  
-
----
-
-> ✅ Este relatório faz parte da avaliação técnica.  
-> Clareza, objetividade e organização são tão importantes quanto o funcionamento do código.
+Uma melhoria relevante seria adicionar persistência do último modo ativo, para que ao religar o sistema ele retome o estado anterior sem depender do switch estar posicionado. Outra melhoria seria o uso de interrupções (`IRQ`) nos pinos do switch em vez de polling no loop principal, tornando a resposta mais imediata.
 
 ---
 
