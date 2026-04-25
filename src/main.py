@@ -3,6 +3,7 @@ import utime
 
 print("Teste")
 
+mode = "glp"
 
 def checkValues(mode, gas_value, temperature_value):
   """
