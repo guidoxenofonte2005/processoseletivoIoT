@@ -2,10 +2,13 @@ from globals import board_I2C
 import ssd1306
 
 class OledScreen():
+  """Gerencia todas as telas exibidas no display OLED SSD1306 128x64."""
+
   def __init__(self):        
     self.oled_screen = ssd1306.SSD1306_I2C(128, 64, board_I2C)
       
   def showNormal(self, current_mode, temperature_value=0):
+    """Tela padrão: gás em nível seguro. Exibe temperatura no modo GLP."""
     self.oled_screen.fill(0)
     self.oled_screen.text(f"GAS: Normal", 0, 0, 1)
     if current_mode.upper() == "GLP":
@@ -13,6 +16,7 @@ class OledScreen():
     self.oled_screen.show()
     
   def showAlert(self, current_mode, temperature_value=0):
+    """Tela de alerta: gás em nível intermediário. Orienta verificação das saídas."""
     self.oled_screen.fill(0)
     self.oled_screen.text("GAS DETECTADO", 0, 0, 1)
     self.oled_screen.text("VERIFIQUE AS", 0, 10, 1)
@@ -22,6 +26,7 @@ class OledScreen():
     self.oled_screen.show()
     
   def showHotTempAlert(self, temperature_value=0):
+    """Tela de temperatura elevada: gás seguro, mas temperatura acima de TEMP_HOT."""
     self.oled_screen.fill(0)
     self.oled_screen.text("Gas: Normal", 0, 0, 1)
     self.oled_screen.text(f"Temp. ALTA:", 0, 36, 1)
@@ -29,6 +34,7 @@ class OledScreen():
     self.oled_screen.show()
     
   def showDanger(self):
+    """Tela de perigo: concentração de gás crítica. Buzzer ativado em paralelo."""
     self.oled_screen.fill(0)
     self.oled_screen.text("PERIGO!!!!", 0, 0, 1)
     self.oled_screen.text(f"GAS DETECTADO EM", 0, 10, 1)
@@ -36,6 +42,7 @@ class OledScreen():
     self.oled_screen.show()
     
   def showError(self):
+    """Tela de erro: modo inválido ou falha na leitura dos sensores."""
     self.oled_screen.fill(0)
     self.oled_screen.text("Houve um erro", 0, 0, 1)
     self.oled_screen.text("ao checar os", 0, 10, 1)
